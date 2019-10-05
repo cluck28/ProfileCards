@@ -8,6 +8,13 @@ Created on Thu Jan 18 12:56:08 2018
 
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config = True)
+app.config.from_pyfile('flask.cfg')
 
-from project import views
+
+from project.users.views import users_blueprint
+from project.evaluations.views import evaluations_blueprint
+
+#register blueprints
+app.register_blueprint(users_blueprint)
+app.register_blueprint(evaluations_blueprint)
