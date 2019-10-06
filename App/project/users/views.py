@@ -10,6 +10,8 @@ from sqlalchemy.exc import IntegrityError
 from flask_login import login_user, current_user, login_required, logout_user
 from flask_mail import Message
 from threading import Thread
+from itsdangerous import URLSafeTimedSerializer
+from datetime import datetime
 
 from project import db, mail, app
 from .forms import RegisterForm, LoginForm
@@ -22,11 +24,22 @@ def send_async_email(msg):
     with app.app_context():
         mail.send(msg)
 
-def send_email(subject, recipients, text_body, html_body):
+def send_email(subject, recipients, html_body):
     msg = Message(subject, recipients=recipients)
-    msg.body = text_body
+    msg.html = html_body
     thr = Thread(target=send_async_email, args=[msg])
     thr.start()
+
+def send_confirmation_email(user_email):
+    confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+    confirm_url = url_for(
+        'users.confirm_email',
+        token=confirm_serializer.dumps(user_email, salt='email-confirmation-salt'),
+        _external=True)
+    html = render_template(
+        'email_confirmation.html',
+        confirm_url=confirm_url)
+    send_email('Confirm Your Email Address', [user_email], html)
 
 users_blueprint = Blueprint('users', __name__)
 
@@ -66,12 +79,30 @@ def register():
                 new_user.authenticated = True
                 db.session.add(new_user)
                 db.session.commit()
-                send_email('Registration',
-                           [form.email.data],
-                           "Thanks for registering with Insight's interview prep program!",
-                           "<h3>Thanks for registering with Insight's interview prep program!</h3>")
+                send_confirmation_email(new_user.email)
                 return redirect(url_for('evaluations.index'))
             except IntegrityError:
                 db.session.rollback()
                 flash('ERROR! Email ({}) already exists.'.format(form.email.data), 'error')
     return render_template('register.html', form=form)
+
+@users_blueprint.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)#one hour time limit
+    except:
+        flash('Link time out, please register again.','error')
+        return redirect(url_for('users.register'))
+
+    user = User.query.filter_by(email=email).first()
+
+    if user.email_confirmed:
+        pass
+    else:
+        user.email_confirmed = True
+        user.email_confirmed_on = datetime.now()
+        db.session.add(user)
+        db.session.commit()
+
+    return redirect(url_for('evaluations.index'))
