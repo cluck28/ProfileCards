@@ -14,11 +14,17 @@
         <div class="panel-heading">Email Address</div>
         <div class="panel-body">{{current_user.email}}</div>
       </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">Username</div>
+        <div class="panel-body">{{current_user.username}}</div>
+      </div>
+
 
       <div class="panel panel-info">
          <div class="panel-heading">Account Actions</div>
          <div class="panel-body"><a href="{{ url_for('users.user_email_change') }}">Change Email Address</a></div>
-         <div class="panel-body"><a href="#">Change Password</a></div>
+         <div class="panel-body"><a href="{{ url_for('users.user_password_change') }}">Change Password</a></div>
+         <div class="panel-body"><a href="{{ url_for('users.user_username_change') }}">Change Username</a></div>
          {% if not current_user.email_confirmed %}
            <div class="panel-body"><a href="#">Resend Email Confirmation</a></div>
          {% endif %}

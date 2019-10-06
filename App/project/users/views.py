@@ -14,7 +14,7 @@ from itsdangerous import URLSafeTimedSerializer
 from datetime import datetime
 
 from project import db, mail, app
-from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm
+from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm, UsernameForm
 from project.models import User
 
 ######
@@ -196,3 +196,33 @@ def user_email_change():
             except IntegrityError:
                 flash('Error! That email already exists!', 'error')
     return render_template('email_change.html', form=form)
+
+@users_blueprint.route('/password_change', methods=["GET", "POST"])
+@login_required
+def user_password_change():
+    form = PasswordForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = current_user
+            user.password = form.password.data
+            db.session.add(user)
+            db.session.commit()
+            flash('Password has been updated!', 'success')
+            return redirect(url_for('users.user_profile'))
+
+    return render_template('password_change.html', form=form)
+
+@users_blueprint.route('/username_change', methods=["GET", "POST"])
+@login_required
+def user_username_change():
+    form = UsernameForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = current_user
+            user.username = form.username.data
+            db.session.add(user)
+            db.session.commit()
+            flash('Username has been updated!', 'success')
+            return redirect(url_for('users.user_profile'))
+
+    return render_template('username_change.html', form=form)

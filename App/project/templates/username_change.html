@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_form_macros.html" import render_field %}
+
+{% block content %}
+
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>Current Username: {{ current_user.username }}</h3>
+        <h3>Please enter your new username:</h3>
+			</div>
+			<div class="card-body">
+				<form action="{{ url_for('users.user_username_change') }}" method="POST">
+					{{ form.csrf_token }}
+					{{ render_field(form.username, placeholder="Enter New Username") }}
+					<br>
+					<div class="form-group">
+						<input type="submit" value="Submit" class="btn btn-warning float-right login_btn">
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
