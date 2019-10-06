@@ -44,6 +44,9 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{{ url_for('users.logout') }}">Logout</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{{ url_for('users.user_profile') }}">Profile</a>
+          </li>
           {% else %}
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="{{ url_for('users.login') }}">Login</a>
