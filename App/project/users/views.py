@@ -7,21 +7,40 @@ Created on Sat Oct 5, 2019
 
 from flask import render_template, Blueprint, request, redirect, url_for, flash
 from sqlalchemy.exc import IntegrityError
+from flask_login import login_user, current_user, login_required, logout_user
 
 from project import db
-from .forms import RegisterForm
+from .forms import RegisterForm, LoginForm
 from project.models import User
-
 
 
 users_blueprint = Blueprint('users', __name__)
 
 @users_blueprint.route('/login', methods=['GET','POST'])
 def login():
-    '''
-    Render the login page
-    '''
-    return render_template('login.html')
+    form = LoginForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=form.email.data).first()
+            if user is not None and user.is_correct_password(form.password.data):
+                user.authenticated = True
+                db.session.add(user)
+                db.session.commit()
+                login_user(user)
+                return redirect(url_for('evaluations.index'))
+            else:
+                flash('ERROR! Incorrect login credentials.', 'error')
+    return render_template('login.html', form=form)
+
+@users_blueprint.route('/logout')
+@login_required
+def logout():
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return redirect(url_for('users.login'))
 
 @users_blueprint.route('/register', methods=['GET', 'POST'])
 def register():

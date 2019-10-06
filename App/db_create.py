@@ -7,7 +7,7 @@ db.drop_all()
 # create the database and the database table
 db.create_all()
 
-# insert recipe data
+# insert evaluation data
 evaluation = Evaluation('Linear Regression', 'Machine Learning','Derive linear regression.')
 
 db.session.add(evaluation)

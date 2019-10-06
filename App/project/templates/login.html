@@ -11,22 +11,10 @@
 				<h3>Sign In</h3>
 			</div>
 			<div class="card-body">
-				<form action="" method="post">
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="text" class="form-control" placeholder="Email" name="username" value="{{
-          request.form.email }}">
-
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input type="password" class="form-control" placeholder="password" name="password" value="{{
-							request.form.password }}">
-					</div>
+				<form action="{{ url_for('users.login') }}" method="post">
+					{{ form.csrf_token }}
+					{{ render_field(form.email, placeholder="Email address") }}
+		      {{ render_field(form.password, placeholder="Password") }}
 					<div class="form-group">
 						<input type="submit" value="Login" class="btn btn-warning float-right login_btn">
 					</div>
@@ -39,7 +27,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 <br><br>
 <br><br>
 {% endblock %}

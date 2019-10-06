@@ -12,7 +12,7 @@
 			</div>
 			<div class="card-body">
 				<form action="{{ url_for('users.register') }}" method="post">
-					{{ form.csrf_token }}
+						{{ form.csrf_token }}
 						{{ render_field(form.email, placeholder="Email address") }}
 						{{ render_field(form.password, placeholder="Password") }}
 						{{ render_field(form.confirm, placeholder="Confirm password") }}
