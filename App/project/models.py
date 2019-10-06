@@ -35,6 +35,7 @@ class User(db.Model):
     registered_on = db.Column(db.DateTime, nullable=True)
     last_logged_in = db.Column(db.DateTime, nullable=True)
     current_logged_in = db.Column(db.DateTime, nullable=True)
+    username = db.Column(db.String, unique=True, nullable=False)
 
     def __init__(self, email, plaintext_password, email_confirmation_sent_on=None):
         self.email = email
@@ -46,6 +47,7 @@ class User(db.Model):
         self.registered_on = datetime.now()
         self.last_logged_in = None
         self.current_logged_in = datetime.now()
+        self.username = email
 
     @hybrid_property
     def password(self):
