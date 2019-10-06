@@ -23,4 +23,4 @@ class PasswordForm(Form):
     confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
 
 class UsernameForm(Form):
-    username = StringField('Username', validators=[DataRequired(), Length(min=6, max=40)])
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=40)])

@@ -236,4 +236,14 @@ def resend_email_confirmation():
     except IntegrityError:
         flash('Error!  Unable to send email to confirm your email address.', 'error')
 
-    return redirect(url_for('users.profile'))
+    return redirect(url_for('users.user_profile'))
+
+@users_blueprint.route('/admin_view_users')
+@login_required
+def admin_view_users():
+    if current_user.role != 'admin':
+        abort(403)
+    else:
+        users = User.query.order_by(User.id).all()
+        return render_template('admin_view_users.html', users=users)
+    return redirect(url_for('stocks.watch_list'))
