@@ -8,12 +8,12 @@ db.drop_all()
 db.create_all()
 
 # insert user data
-user1 = User('csluciuk@gmail.com', 'password1234')
-user2 = User('insightuser@gmail.com', 'PaSsWoRd')
-user3 = User('blaa@blaa.com', 'MyFavPassword')
-db.session.add(user1)
-db.session.add(user2)
-db.session.add(user3)
+#user1 = User('csluciuk@gmail.com', 'password1234')
+#user2 = User('insightuser@gmail.com', 'PaSsWoRd')
+#user3 = User('blaa@blaa.com', 'MyFavPassword')
+#db.session.add(user1)
+#db.session.add(user2)
+#db.session.add(user3)
 
 # insert evaluation data
 evaluation = Evaluation('Linear Regression', 'Machine Learning','Derive linear regression.')
