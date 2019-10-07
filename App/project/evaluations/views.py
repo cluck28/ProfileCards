@@ -6,6 +6,7 @@ Created on Sat Oct 5, 2019
 """
 
 from flask import render_template, Blueprint, request, redirect, url_for, flash
+from flask_login import login_user, current_user, login_required, logout_user
 
 from project import db, mail, app
 from .forms import QuestionForm
@@ -22,6 +23,7 @@ def index():
     return render_template("index.html")
 
 @evaluations_blueprint.route('/add_question', methods=['GET','POST'])
+@login_required
 def add_question():
     form = QuestionForm(request.form)
     if request.method == 'POST':
@@ -32,3 +34,9 @@ def add_question():
             flash('Question successfully uploaded.', 'success')
             return redirect(url_for('evaluations.index'))
     return render_template("add_question.html",form=form)
+
+@evaluations_blueprint.route('/question_view')
+@login_required
+def question_view():
+    questions = Evaluation.query.order_by(Evaluation.id).all()
+    return render_template('question_view.html', questions=questions)
