@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_form_macros.html" import render_field %}
+{% block content %}
+<div class="container">
+	<div class="d-flex justify-content-center h-100">
+		<div class="card">
+			<div class="card-header">
+				<h3>Upload an interview question:</h3>
+			</div>
+			<div class="card-body">
+				<form action="{{ url_for('evaluations.add_question') }}" method="post">
+					{{ form.csrf_token }}
+          <p>Category:</p>
+          {{ form.category }}
+          <br>
+          <p>Question:</p>
+          {{ form.question(rows='10',cols='70') }}
+					<div class="form-group">
+            <br>
+						<input type="submit" value="Submit" class="btn btn-warning float-right login_btn">
+					</div>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

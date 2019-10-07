@@ -16,9 +16,6 @@
           <th>Email</th>
           <th>Username</th>
           <th>Role</th>
-          <th>Registration Date</th>
-          <th>Email Confirmed?</th>
-          <th>Email Confirmed On</th>
           <th>Last Login</th>
           </tr>
       </thead>
@@ -29,9 +26,6 @@
             <td> {{ user.email }} </td>
             <td> {{ user.username }} </td>
             <td> {{ user.role }} </td>
-            <td> {{ user.registered_on }} </td>
-            <td> {{ user.email_confirmed }} </td>
-            <td> {{ user.email_confirmed_on }}% </td>
             <td> {{ user.last_logged_in }} </td>
           </tr>
         {% endfor %}
