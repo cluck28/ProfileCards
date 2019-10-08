@@ -13,3 +13,9 @@ class QuestionForm(Form):
     '''
     category = SelectField('Category', choices=category_choices, validators=[DataRequired()])
     question = TextAreaField('Question', validators=[DataRequired()])
+
+class AnswerForm(Form):
+    '''
+    Allow users to answer a question
+    '''
+    answer = TextAreaField('Answer', validators=[DataRequired()])

@@ -4,6 +4,21 @@ from project import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from datetime import datetime
 
+class Answer(db.Model):
+
+    __tablename__ = "answers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    answer_content = db.Column(db.String, nullable=False)
+    answer_upvotes = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, content):
+        self.answer_content = content
+        self.answer_upvotes = 0
+
+    def __repr__(self):
+        return '<title {}'.format(self.name)
+
 class Evaluation(db.Model):
 
     __tablename__ = "evaluations"

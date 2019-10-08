@@ -22,7 +22,7 @@
         {% for question in questions %}
           <tr>
             <td> {{ question.evaluation_category }} </td>
-            <td> {{ question.evaluation_question }} </td>
+            <td> <a href="{{url_for('evaluations.answer_question', question_id=question.id)}}">{{ question.evaluation_question }} </td>
             <td> {{ question.evaluation_difficulty }} </td>
             <td> {{ question.evaluation_likes }} </td>
           </tr>
