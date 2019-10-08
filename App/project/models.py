@@ -11,9 +11,11 @@ class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     answer_content = db.Column(db.String, nullable=False)
     answer_upvotes = db.Column(db.Integer, nullable=False)
+    answer_created_on = db.Column(db.DateTime, nullable=True)
 
     def __init__(self, content):
         self.answer_content = content
+        self.answer_created_on = datetime.now()
         self.answer_upvotes = 0
 
     def __repr__(self):
@@ -28,10 +30,12 @@ class Evaluation(db.Model):
     evaluation_question = db.Column(db.String, nullable=False)
     evaluation_difficulty = db.Column(db.Integer, nullable=False)
     evaluation_likes = db.Column(db.Integer, nullable=False)
+    evaluation_created_on = db.Column(db.DateTime, nullable=True)
 
     def __init__(self, category, question):
         self.evaluation_category = category
         self.evaluation_question = question
+        self.evaluation_created_on = datetime.now()
         self.evaluation_difficulty = 0
         self.evaluation_likes = 0
 
