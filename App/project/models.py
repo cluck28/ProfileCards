@@ -12,11 +12,15 @@ class Answer(db.Model):
     answer_content = db.Column(db.String, nullable=False)
     answer_upvotes = db.Column(db.Integer, nullable=False)
     answer_created_on = db.Column(db.DateTime, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    evaluation_id = db.Column(db.Integer, db.ForeignKey('evaluations.id'))
 
-    def __init__(self, content):
+    def __init__(self, content, user_id, evaluation_id):
         self.answer_content = content
         self.answer_created_on = datetime.now()
         self.answer_upvotes = 0
+        self.user_id = user_id
+        self.evaluation_id = evaluation_id
 
     def __repr__(self):
         return '<title {}'.format(self.name)
@@ -31,13 +35,16 @@ class Evaluation(db.Model):
     evaluation_difficulty = db.Column(db.Integer, nullable=False)
     evaluation_likes = db.Column(db.Integer, nullable=False)
     evaluation_created_on = db.Column(db.DateTime, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    answers = db.relationship('Answer', backref='evaluation', lazy='dynamic')
 
-    def __init__(self, category, question):
+    def __init__(self, category, question, user_id):
         self.evaluation_category = category
         self.evaluation_question = question
         self.evaluation_created_on = datetime.now()
         self.evaluation_difficulty = 0
         self.evaluation_likes = 0
+        self.user_id = user_id
 
     def __repr__(self):
         return '<title {}'.format(self.name)
@@ -58,6 +65,8 @@ class User(db.Model):
     current_logged_in = db.Column(db.DateTime, nullable=True)
     username = db.Column(db.String, unique=True, nullable=False)
     role = db.Column(db.String, default='user')
+    evaluations = db.relationship('Evaluation', backref='user', lazy='dynamic')
+    answers = db.relationship('Answer', backref='user', lazy='dynamic')
 
     def __init__(self, email, plaintext_password, email_confirmation_sent_on=None, role='user'):
         self.email = email

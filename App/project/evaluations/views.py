@@ -28,7 +28,7 @@ def add_question():
     form = QuestionForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            new_question = Evaluation(form.category.data,form.question.data)
+            new_question = Evaluation(form.category.data,form.question.data,current_user.id)
             db.session.add(new_question)
             db.session.commit()
             flash('Question successfully uploaded.', 'success')
@@ -47,7 +47,7 @@ def answer_question(question_id):
     form = AnswerForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            new_answer = Answer(form.answer.data)
+            new_answer = Answer(form.answer.data,current_user.id,question_id)
             db.session.add(new_answer)
             db.session.commit()
             flash('Question successfully answered', 'success')
