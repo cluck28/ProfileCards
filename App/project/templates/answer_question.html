@@ -8,9 +8,9 @@
 				<h3>{{ question.evaluation_question }}</h3>
 			</div>
 			<div class="card-body">
-        <form action="{{ url_for('evaluations.answer_question',question_id=question.id) }}" method="post">
+        <form action="{{ url_for('answers.answer_question',question_id=question.id) }}" method="post">
 					{{ form.csrf_token }}
-          <p>Answer:</p>
+          <p>Answer to see other solutions:</p>
           {{ form.answer(rows='10',cols='70') }}
 					<div class="form-group">
             <br>

@@ -31,7 +31,9 @@ def load_user(user_id):
 
 from project.users.views import users_blueprint
 from project.evaluations.views import evaluations_blueprint
+from project.answers.views import answers_blueprint
 
 #register blueprints
 app.register_blueprint(users_blueprint)
 app.register_blueprint(evaluations_blueprint)
+app.register_blueprint(answers_blueprint)
