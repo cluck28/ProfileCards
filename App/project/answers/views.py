@@ -19,5 +19,12 @@ def answer_question(question_id):
             db.session.add(new_answer)
             db.session.commit()
             flash('Question successfully answered', 'success')
-            return redirect(url_for('evaluations.question_view'))
+            return redirect(url_for('answers.view_answers',question_id=question_id))
     return render_template("answer_question.html",form=form,question=question)
+
+@answers_blueprint.route('/view_answers/<question_id>')
+@login_required
+def view_answers(question_id):
+    question = db.session.query(Evaluation).filter(Evaluation.id == question_id).first()
+    answers = db.session.query(Answer).filter(Answer.evaluation_id == question_id).all()
+    return render_template("answer_view.html",question=question,answers=answers)
