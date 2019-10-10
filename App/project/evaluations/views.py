@@ -40,3 +40,9 @@ def add_question():
 def question_view():
     questions = Evaluation.query.order_by(Evaluation.id).all()
     return render_template('question_view.html', questions=questions)
+
+@evaluations_blueprint.route('/user_question_view')
+@login_required
+def user_question_view():
+    questions = Evaluation.query.filter(Evaluation.user_id == current_user.id).all()
+    return render_template('user_question_view.html', questions=questions)

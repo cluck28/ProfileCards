@@ -11,6 +11,18 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="panel panel-primary">
+        <div class="panel-heading">Question Statistics</div>
+        <div class="panel-body"><p>Total questions submitted: {{ total_questions }}</p>
+        <p>Top voted question: {{ top_question }}</p>
+        <p><a href="{{ url_for('evaluations.user_question_view') }}">View all submitted questions</a></p></div>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">Answer Statistics</div>
+        <div class="panel-body"><p>Total answers submitted: {{ total_answers }}</p>
+        <p>Top voted answer: {{ top_answer }}</p>
+        <p>View all submitted answers</p></div>
+      </div>
+      <div class="panel panel-primary">
         <div class="panel-heading">Email Address</div>
         <div class="panel-body">{{current_user.email}}</div>
       </div>

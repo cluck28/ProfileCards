@@ -15,7 +15,7 @@ from datetime import datetime
 
 from project import db, mail, app
 from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm, UsernameForm
-from project.models import User
+from project.models import User, Evaluation, Answer
 
 ######
 # Helper functions
@@ -170,7 +170,21 @@ def reset_with_token(token):
 @users_blueprint.route('/user_profile')
 @login_required
 def user_profile():
-    return render_template('user_profile.html')
+    total_questions = Evaluation.query.filter(Evaluation.user_id == current_user.id).count()
+    #Right now just by id and not implementing likes
+    try:
+        top_question = Evaluation.query.filter(Evaluation.user_id == current_user.id).\
+        order_by(Evaluation.id).first().evaluation_question
+    except:
+        top_question = "None"
+    total_answers = Answer.query.filter(Answer.user_id == current_user.id).count()
+    try:
+        top_answer = Answer.query.filter(Answer.user_id == current_user.id).\
+        order_by(Answer.id).first().answer_content
+    except:
+        top_answer = "None"
+    return render_template('user_profile.html',total_questions=total_questions,top_question=top_question,\
+            total_answers=total_answers,top_answer=top_answer)
 
 @users_blueprint.route('/email_change', methods=["GET", "POST"])
 @login_required

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_form_macros.html" import render_field %}
+
+{% block content %}
+
+<div class="question-view">
+  <div class="page-header">
+    <h2>List of questions submitted by {{ current_user.username }}</h2>
+  </div>
+
+  <div class="row">
+    <table class="table table-striped" id="list_of_questions">
+      <thead>
+        <tr>
+          <th>Question Category</th>
+          <th>Question</th>
+          <th>Difficulty</th>
+          <th>Likes</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for question in questions %}
+          <tr>
+            <td> {{ question.evaluation_category }} </td>
+            <td> <a href="{{url_for('answers.answer_question', question_id=question.id)}}">{{ question.evaluation_question }} </td>
+            <td> {{ question.evaluation_difficulty }} </td>
+            <td> {{ question.evaluation_likes }} </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

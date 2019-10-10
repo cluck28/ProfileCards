@@ -18,6 +18,7 @@ def view_answers(question_id):
 @answers_blueprint.route('/answer_question/<question_id>', methods=['GET','POST'])
 @login_required
 def answer_question(question_id):
+    #Check if user has answered the question
     if db.session.query(Answer).filter(Answer.evaluation_id == question_id).\
     filter(Answer.user_id == current_user.id).first() is not None:
         flash('Question already answered', 'success')

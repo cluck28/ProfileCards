@@ -10,7 +10,6 @@ class Answer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     answer_content = db.Column(db.String, nullable=False)
-    answer_upvotes = db.Column(db.Integer, nullable=False)
     answer_created_on = db.Column(db.DateTime, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     evaluation_id = db.Column(db.Integer, db.ForeignKey('evaluations.id'))
@@ -18,7 +17,6 @@ class Answer(db.Model):
     def __init__(self, content, user_id, evaluation_id):
         self.answer_content = content
         self.answer_created_on = datetime.now()
-        self.answer_upvotes = 0
         self.user_id = user_id
         self.evaluation_id = evaluation_id
 
@@ -32,8 +30,6 @@ class Evaluation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     evaluation_category = db.Column(db.String, nullable=False)
     evaluation_question = db.Column(db.String, nullable=False)
-    evaluation_difficulty = db.Column(db.Integer, nullable=False)
-    evaluation_likes = db.Column(db.Integer, nullable=False)
     evaluation_created_on = db.Column(db.DateTime, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     answers = db.relationship('Answer', backref='evaluation', lazy='dynamic')
@@ -42,8 +38,6 @@ class Evaluation(db.Model):
         self.evaluation_category = category
         self.evaluation_question = question
         self.evaluation_created_on = datetime.now()
-        self.evaluation_difficulty = 0
-        self.evaluation_likes = 0
         self.user_id = user_id
 
     def __repr__(self):
