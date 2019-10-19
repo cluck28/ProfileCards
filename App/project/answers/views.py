@@ -8,7 +8,7 @@ from project.models import Evaluation, Answer
 
 answers_blueprint = Blueprint('answers', __name__)
 
-@answers_blueprint.route('/view_answers/<question_id>')
+@answers_blueprint.route('/view_answers/<question_id>',methods=['GET','POST'])
 @login_required
 def view_answers(question_id):
     question = db.session.query(Evaluation).filter(Evaluation.id == question_id).first()

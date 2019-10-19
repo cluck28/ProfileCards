@@ -4,6 +4,26 @@ from project import db, bcrypt
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from datetime import datetime
 
+class Answer_Vote(db.Model):
+
+    __tablename__ = "answer_votes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    answer_id = db.Column(db.Integer, db.ForeignKey('answers.id'))
+    vote = db.Column(db.Integer)
+    voted_on = db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, user_id, answer_id, vote):
+        self.user_id = user_id
+        self.answer_id = answer_id
+        self.vote = vote
+        self.voted_on = datetime.now()
+
+    def __repr__(self):
+        return '<title {}'.format(self.name)
+
+
 class Answer(db.Model):
 
     __tablename__ = "answers"

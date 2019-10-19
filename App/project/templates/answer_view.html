@@ -12,6 +12,7 @@
     <table class="table table-striped" id="list_of_questions">
       <thead>
         <tr>
+          <th> </th>
           <th>Answer</th>
           <th>Upvotes</th>
           </tr>
@@ -19,6 +20,7 @@
       <tbody>
         {% for answer in answers %}
           <tr>
+            <td><span class=upvote></span></td>
             <td> {{ answer.answer_content }} </td>
             <td> {{ answer.answer_upvotes }} </td>
           </tr>
