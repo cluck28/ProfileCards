@@ -68,3 +68,9 @@ body {
 .star.on {
   background-position: -100 -25px;
 }
+
+.divider{
+    width:10px;
+    height:auto;
+    display:inline-block;
+}
