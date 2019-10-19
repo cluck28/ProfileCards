@@ -32,7 +32,7 @@ def add_question():
             db.session.add(new_question)
             db.session.commit()
             flash('Question successfully uploaded.', 'success')
-            return redirect(url_for('evaluations.index'))
+            return redirect(url_for('evaluations.question_view'))
     return render_template("add_question.html",form=form)
 
 @evaluations_blueprint.route('/question_view')

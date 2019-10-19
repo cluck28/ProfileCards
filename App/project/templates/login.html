@@ -13,7 +13,6 @@
 					{{ render_field(form.email, placeholder="Email address") }}
 		      {{ render_field(form.password, placeholder="Password") }}
 					<p><a href={{ url_for('users.reset') }}>Forgot password?</a></p>
-					<p><a href={{ url_for('users.register') }}>Register</a></p>
 					<div class="form-group">
 						<input type="submit" value="Login" class="btn btn-warning float-right login_btn">
 					</div>

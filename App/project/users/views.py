@@ -67,7 +67,7 @@ def login():
                 db.session.add(user)
                 db.session.commit()
                 login_user(user)
-                return redirect(url_for('evaluations.index'))
+                return redirect(url_for('users.user_profile'))
             else:
                 flash('ERROR! Incorrect login credentials.', 'error')
     return render_template('login.html', form=form)
