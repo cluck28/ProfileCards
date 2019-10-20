@@ -16,13 +16,10 @@
        <div class="panel-body">
          <h3><a href="{{url_for('answers.answer_question', question_id=question.id)}}">{{ question.evaluation_question }}</a></h3>
          <br>
-         <button type="button" class="btn btn-danger btn-sm">
+         <button type="button" id="like" name="{{ question.id }}" class="like">
             <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
          </button>
          <div class="divider"></div>
-         <button type="button" class="btn btn-danger btn-sm">
-            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-         </button>
        </div>
      </div>
    </div>

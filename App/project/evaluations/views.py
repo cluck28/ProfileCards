@@ -5,12 +5,12 @@ Created on Sat Oct 5, 2019
 @author: christopherluciuk
 """
 
-from flask import render_template, Blueprint, request, redirect, url_for, flash
+from flask import render_template, Blueprint, request, redirect, url_for, flash, json
 from flask_login import login_user, current_user, login_required, logout_user
 
 from project import db, mail, app
 from .forms import QuestionForm, AnswerForm
-from project.models import Evaluation, Answer
+from project.models import Evaluation, Answer, Evaluation_Likes
 
 evaluations_blueprint = Blueprint('evaluations', __name__)
 
@@ -46,3 +46,27 @@ def question_view():
 def user_question_view():
     questions = Evaluation.query.filter(Evaluation.user_id == current_user.id).all()
     return render_template('user_question_view.html', questions=questions)
+
+@evaluations_blueprint.route('/add_evaluation_like', methods=['POST'])
+@login_required
+def add_evaluation_like():
+    if request.method == 'POST':
+        question_id = request.form['question_id']
+        #Get all the likes for this question
+        evaluation_likes = Evaluation_Likes.query.filter(Evaluation_Likes.evaluation_id==question_id)
+        #Has the current user liked the question?
+        if evaluation_likes.filter(Evaluation_Likes.user_id == current_user.id).first() is not None:
+            #Unlike the question
+            db.session.delete(evaluation_likes.filter(Evaluation_Likes.user_id == current_user.id).first())#-1 for unlike
+            db.session.commit()
+            message = 'You disliked this'
+        #If not, like the question
+        else:
+            #Like the question
+            db.session.add(Evaluation_Likes(current_user.id, question_id, 1))
+            db.session.commit()
+            message = 'You liked this'
+
+    ctx = {'likes_count': evaluation_likes.count(), 'message': message}
+    response = app.response_class(response=json.dumps(ctx), status=200, mimetype='application/json')
+    return response
