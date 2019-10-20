@@ -14,13 +14,16 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h4>{{ question_like[1] }}</h4></div>
       <div class="panel-body">
-        <h3><a href="{{url_for('answers.answer_question', question_id=question_like[0])}}">{{ question_like[2] }}</a></h3>
+        <h3>{{ question_like[2] }}</h3>
         <br>
         <button type="button" id="like_{{question_like[0]}}" name="like_{{ question_like[0] }}" class="like">
            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
         </button>
         <span class="likes_report_{{question_like[0]}}" id="span_{{question_like[0]}}" name="{{ question_like[0] }}">{{ question_like[3] }} like this</span>
         <div class="divider"></div>
+        <a href="{{url_for('answers.answer_question', question_id=question_like[0])}}" class="btn btn-primary" role="button">Answer</a>
+        <div class="divider"></div>
+        <button type="button" class="btn btn-success" id="solution_{{question_like[0]}}">Solutions</button>
       </div>
     </div>
   </div>
