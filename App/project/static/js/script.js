@@ -16,17 +16,19 @@ for (const btn of document.querySelectorAll('.star')) {
   });
 }
 
-$('.like').click(function(){
-    $.ajax({
-        url: '/add_evaluation_like',
-        method: 'POST',
-        data: {'question_id': $(this).attr('name'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-        success: function(response){
-          alert(response.message);
-          alert('Company likes count is now ' + response.likes_count);
-        },
-        error: function(rs, e) {
-          alert(rs.responseText);
-        }
-    });
-  })
+$(document).on('click','[id^="like_"]',function(){
+  var spId = $(this).attr('id').split('_')[1];
+  /*alert('You clicked');*/
+  $.ajax({
+      url: '/add_evaluation_like',
+      method: 'POST',
+      data: {'question_id': $(this).attr('id').split('_')[1], 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+      success: function(response){
+        /*alert(response.message);*/
+        $('#span_'+spId).html(' ' + response.likes_count + ' like this');
+      },
+      error: function(re, e){
+        alert(rs.responseText);
+      }
+  });
+})

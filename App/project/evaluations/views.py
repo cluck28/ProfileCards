@@ -7,6 +7,8 @@ Created on Sat Oct 5, 2019
 
 from flask import render_template, Blueprint, request, redirect, url_for, flash, json
 from flask_login import login_user, current_user, login_required, logout_user
+from sqlalchemy.sql import func, desc
+import sys
 
 from project import db, mail, app
 from .forms import QuestionForm, AnswerForm
@@ -38,8 +40,11 @@ def add_question():
 @evaluations_blueprint.route('/question_view')
 @login_required
 def question_view():
-    questions = Evaluation.query.order_by(Evaluation.id).all()
-    return render_template('question_view.html', questions=questions)
+    #Count likes for each question
+    questions_likes = db.session.query(Evaluation.id,Evaluation.evaluation_category,\
+                Evaluation.evaluation_question,func.count(Evaluation_Likes.like).\
+                label('Likes')).outerjoin(Evaluation_Likes).group_by(Evaluation.id).order_by(desc('Likes')).all()
+    return render_template('question_view.html', questions_likes=questions_likes)
 
 @evaluations_blueprint.route('/user_question_view')
 @login_required
@@ -57,7 +62,7 @@ def add_evaluation_like():
         #Has the current user liked the question?
         if evaluation_likes.filter(Evaluation_Likes.user_id == current_user.id).first() is not None:
             #Unlike the question
-            db.session.delete(evaluation_likes.filter(Evaluation_Likes.user_id == current_user.id).first())#-1 for unlike
+            db.session.delete(evaluation_likes.filter(Evaluation_Likes.user_id == current_user.id).first())
             db.session.commit()
             message = 'You disliked this'
         #If not, like the question
