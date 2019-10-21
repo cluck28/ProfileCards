@@ -3,30 +3,26 @@
 
 {% block content %}
 
-<div class="question-view">
+<div class="answer-view">
   <div class="page-header">
     <h2>{{ question.evaluation_question }}</h2>
   </div>
 
   <div class="row">
-    <table class="table table-striped" id="list_of_questions">
-      <thead>
-        <tr>
-          <th> </th>
-          <th>Answer</th>
-          <th>Upvotes</th>
-          </tr>
-      </thead>
-      <tbody>
-        {% for answer in answers %}
-          <tr>
-            <td><span class=upvote></span></td>
-            <td> {{ answer.answer_content }} </td>
-            <td> {{ answer.answer_upvotes }} </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    {% for answer_upvote in answers_upvotes %}
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>{{ answer_upvote[1] }}</p>
+            <br>
+            <button type="button" id="upvote_{{answer_upvote[0]}}" name="upvote_{{ answer_upvote[0] }}">
+               <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            </button>
+            <span class="upvotes_report_{{answer_upvote[0]}}" id="answer_span_{{answer_upvote[0]}}" name="{{ answer_upvote[0] }}">{{ answer_upvote[2] }} upvote(s)</span>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
 

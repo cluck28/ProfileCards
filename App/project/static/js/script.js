@@ -25,7 +25,7 @@ $(document).on('click','[id^="like_"]',function(){
       data: {'question_id': $(this).attr('id').split('_')[1], 'csrfmiddlewaretoken': '{{ csrf_token }}'},
       success: function(response){
         /*alert(response.message);*/
-        $('#span_'+spId).html(' ' + response.likes_count + ' like this');
+        $('#question_span_'+spId).html(' ' + response.likes_count + ' like this');
       },
       error: function(re, e){
         alert(rs.responseText);
@@ -47,6 +47,23 @@ $(document).on('click','[id^="solution_"]',function(){
         else{
           alert(response.message);
         }
+      },
+      error: function(re, e){
+        alert(rs.responseText);
+      }
+  });
+})
+
+$(document).on('click','[id^="upvote_"]',function(){
+  var spId = $(this).attr('id').split('_')[1];
+  /*alert('You clicked');*/
+  $.ajax({
+      url: '/add_answer_upvote',
+      method: 'POST',
+      data: {'answer_id': $(this).attr('id').split('_')[1], 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+      success: function(response){
+        /*alert(response.message);*/
+        $('#answer_span_'+spId).html(' ' + response.upvotes_count + ' upvote(s)');
       },
       error: function(re, e){
         alert(rs.responseText);
