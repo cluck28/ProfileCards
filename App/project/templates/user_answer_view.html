@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_form_macros.html" import render_field %}
+
+{% block content %}
+
+<div class="answer-view">
+  <div class="page-header">
+    <h2>List of solutions submitted by {{ current_user.username }}</h2>
+  </div>
+
+  <div class="row">
+    {% for answer_upvote in answers_upvotes %}
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>{{ answer_upvote[1] }}</p>
+            <br>
+            <button type="button" id="upvote_{{answer_upvote[0]}}" name="upvote_{{ answer_upvote[0] }}">
+               <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            </button>
+            <span class="upvotes_report_{{answer_upvote[0]}}" id="answer_span_{{answer_upvote[0]}}" name="{{ answer_upvote[0] }}">{{ answer_upvote[2] }} upvote(s)</span>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

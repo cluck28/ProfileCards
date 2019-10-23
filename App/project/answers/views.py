@@ -68,3 +68,12 @@ def add_answer_upvote():
     ctx = {'upvotes_count': answer_upvotes.count(), 'message': message}
     response = app.response_class(response=json.dumps(ctx), status=200, mimetype='application/json')
     return response
+
+@answers_blueprint.route('/user_answer_view',methods=['GET','POST'])
+@login_required
+def user_answer_view():
+    answers_upvotes = db.session.query(Answer.id,Answer.answer_content,\
+                        func.count(Answer_Vote.vote).label('Upvotes')).\
+                        outerjoin(Answer_Vote).filter(Answer.user_id == current_user.id).\
+                        group_by(Answer.id).order_by(desc('Upvotes')).all()
+    return render_template("user_answer_view.html",answers_upvotes=answers_upvotes)

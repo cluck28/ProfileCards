@@ -20,7 +20,7 @@
         <div class="panel-heading">Answer Statistics</div>
         <div class="panel-body"><p>Total answers submitted: {{ total_answers }}</p>
         <p>Top voted answer: {{ top_answer }}</p>
-        <p>View all submitted answers</p></div>
+        <p><a href="{{ url_for('answers.user_answer_view') }}">View all submitted answers</a></p></div>
       </div>
       <div class="panel panel-primary">
         <div class="panel-heading">Email Address</div>
