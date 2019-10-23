@@ -7,6 +7,7 @@ Created on Sat Oct 5, 2019
 
 from flask import render_template, Blueprint, request, redirect, url_for, flash
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import func, desc
 from flask_login import login_user, current_user, login_required, logout_user
 from flask_mail import Message
 from threading import Thread
@@ -15,7 +16,7 @@ from datetime import datetime
 
 from project import db, mail, app
 from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm, UsernameForm
-from project.models import User, Evaluation, Answer
+from project.models import User, Evaluation, Answer, Evaluation_Likes, Answer_Vote
 
 ######
 # Helper functions
@@ -173,14 +174,18 @@ def user_profile():
     total_questions = Evaluation.query.filter(Evaluation.user_id == current_user.id).count()
     #Right now just by id and not implementing likes
     try:
-        top_question = Evaluation.query.filter(Evaluation.user_id == current_user.id).\
-        order_by(Evaluation.id).first().evaluation_question
+        top_question = db.session.query(Evaluation.id,Evaluation.evaluation_category,\
+                            Evaluation.evaluation_question,func.count(Evaluation_Likes.like).\
+                            label('Likes')).outerjoin(Evaluation_Likes).group_by(Evaluation.id).\
+                            filter(Evaluation.user_id == current_user.id).order_by(desc('Likes')).first()[2]
     except:
         top_question = "None"
     total_answers = Answer.query.filter(Answer.user_id == current_user.id).count()
     try:
-        top_answer = Answer.query.filter(Answer.user_id == current_user.id).\
-        order_by(Answer.id).first().answer_content
+        top_answer = db.session.query(Answer.id,Answer.answer_content,\
+                            func.count(Answer_Vote.vote).label('Upvotes')).\
+                            outerjoin(Answer_Vote).filter(Answer.user_id == current_user.id).\
+                            group_by(Answer.id).order_by(desc('Upvotes')).first()[1]
     except:
         top_answer = "None"
     return render_template('user_profile.html',total_questions=total_questions,top_question=top_question,\
