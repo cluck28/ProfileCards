@@ -33,7 +33,6 @@ def add_question():
             new_question = Evaluation(form.category.data,form.question.data,current_user.id)
             db.session.add(new_question)
             db.session.commit()
-            flash('Question successfully uploaded.', 'success')
             return redirect(url_for('evaluations.question_view'))
     return render_template("add_question.html",form=form)
 

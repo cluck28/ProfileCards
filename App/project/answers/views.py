@@ -31,7 +31,6 @@ def answer_question(question_id):
             new_answer = Answer(form.answer.data,current_user.id,question_id)
             db.session.add(new_answer)
             db.session.commit()
-            flash('Question successfully answered', 'success')
         return redirect(url_for('answers.view_answers',question_id=question_id))
     return render_template("answer_question.html",form=form,question=question)
 

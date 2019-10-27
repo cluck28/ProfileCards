@@ -15,10 +15,20 @@
   </head>
 
 <body id="page-top">
+<div id="main">
 
   <!-- Static navbar -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
+
+      <!-- Sidebar -->
+      <div id="mySidenav" class="sidenav">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <br>
+          <h2>Search:</h2>
+          <br>
+          <h2>Category</h2>
+      </div>
 
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -99,11 +109,12 @@
     </div>
   </div>
 </div><!-- /.container -->
-
+</div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script src="node_modules/side-nav/side-nav.js"></script>
   <script src="https://unpkg.com/applause-button/dist/applause-button.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
