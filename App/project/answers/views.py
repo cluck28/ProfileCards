@@ -3,7 +3,7 @@ from flask import render_template, Blueprint, request, redirect, url_for, flash,
 from flask_login import login_user, current_user, login_required, logout_user
 from sqlalchemy.sql import func, desc
 
-from project import db, mail, app
+from project import db, mail, app, es
 from .forms import AnswerForm
 from project.models import Evaluation, Answer, Answer_Vote
 

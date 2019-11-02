@@ -1,5 +1,5 @@
-
 from flask_wtf import Form
+from flask import request
 from wtforms import StringField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, EqualTo, Email
 
@@ -19,3 +19,6 @@ class AnswerForm(Form):
     Allow users to answer a question
     '''
     answer = TextAreaField('Answer', validators=[DataRequired()])
+
+class SearchForm(Form):
+    query = StringField('Search', validators=[DataRequired()])
