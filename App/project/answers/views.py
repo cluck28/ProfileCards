@@ -5,7 +5,7 @@ from sqlalchemy.sql import func, desc
 
 from project import db, mail, app
 from .forms import AnswerForm
-from project.models import Evaluation, Answer, Answer_Vote
+from project.models import Evaluation, Answer, Answer_Vote, Evaluation_Difficulty
 
 answers_blueprint = Blueprint('answers', __name__)
 
@@ -30,6 +30,8 @@ def answer_question(question_id):
         if form.validate_on_submit():
             new_answer = Answer(form.answer.data,current_user.id,question_id)
             db.session.add(new_answer)
+            new_rating = Evaluation_Difficulty(current_user.id,question_id,form.difficulty.data)
+            db.session.add(new_rating)
             db.session.commit()
         return redirect(url_for('answers.view_answers',question_id=question_id))
     return render_template("answer_question.html",form=form,question=question)

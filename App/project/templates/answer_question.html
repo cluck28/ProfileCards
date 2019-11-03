@@ -10,6 +10,9 @@
 			<div class="card-body">
         <form action="{{ url_for('answers.answer_question',question_id=question.id) }}" method="post">
 					{{ form.csrf_token }}
+					<p>Difficulty:</p>
+					{{ form.difficulty }}
+					<br><br>
           <p>Answer to see other solutions:</p>
           {{ form.answer(rows='10',cols='70') }}
 					<div class="form-group">

@@ -5,6 +5,24 @@ from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from datetime import datetime
 from project.search import add_to_index, remove_from_index, query_index
 
+class Evaluation_Difficulty(db.Model):
+
+    __tablename__ = "evaluation_difficulty"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    evaluation_id = db.Column(db.Integer, db.ForeignKey('evaluations.id'))
+    difficulty = db.Column(db.Integer)
+    rated_on = db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, user_id, evaluation_id, difficulty):
+        self.user_id = user_id
+        self.evaluation_id = evaluation_id
+        self.difficulty = difficulty
+        self.rated_on = datetime.now()
+
+    def __repr__(self):
+        return '<title {}'.format(self.name)
 
 class Evaluation_Likes(db.Model):
 
