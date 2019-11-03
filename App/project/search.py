@@ -1,5 +1,3 @@
-
-
 def add_to_index(index, model):
     payload = {}
     for field in model.__searchable__:

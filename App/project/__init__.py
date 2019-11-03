@@ -19,7 +19,6 @@ app.config.from_pyfile('flask.cfg')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 mail = Mail(app)
-es = Elasticsearch()
 
 login_manager = LoginManager()
 login_manager.init_app(app)

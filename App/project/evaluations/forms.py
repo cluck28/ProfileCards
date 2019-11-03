@@ -19,6 +19,3 @@ class AnswerForm(Form):
     Allow users to answer a question
     '''
     answer = TextAreaField('Answer', validators=[DataRequired()])
-
-class SearchForm(Form):
-    query = StringField('Search', validators=[DataRequired()])
