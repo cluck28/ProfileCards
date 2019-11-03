@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "_form_macros.html" import render_field %}
+{% from "_difficulty_macro.html" import star_rating %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
         <button type="button" class="btn btn-success" id="solution_{{question_like[0]}}">Solutions</button>
         <br>
         <br>
-        Difficulty: {{ question_like[4] }}
+        Difficulty: Easiest {{star_rating(question_like[4])}} Hardest
       </div>
     </div>
   </div>

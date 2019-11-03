@@ -74,3 +74,7 @@ body {
     height:auto;
     display:inline-block;
 }
+
+.checked {
+  color: orange;
+}
