@@ -7,4 +7,4 @@ Created on Thu Jan 18 10:12:07 2018
 """
 
 from project import app
-app.run(debug = True)
+app.run(host='0.0.0.0')
