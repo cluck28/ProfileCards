@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://unpkg.com/applause-button/dist/applause-button.css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.css" rel="stylesheet" type="text/css">
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.10.min.css" rel="stylesheet" type="text/css">
   </head>
 
 <body id="page-top">
@@ -38,6 +40,7 @@
             <li><a href="{{ url_for('evaluations.add_question') }}">Add Question</a></li>
             {% if current_user.role == "admin" %}
               <li><a href="{{ url_for('users.admin_view_users') }}">View Users (Admin)</a></li>
+              <li><a href="{{ url_for('users.admin_dashboard') }}">User Statistics (Admin)</a></li>
             {% endif %}
           {% else %}
 
@@ -103,6 +106,8 @@
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   <script src="node_modules/side-nav/side-nav.js"></script>
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.10.min.js"></script>
+  <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.10.min.js"></script>
   <script src="https://unpkg.com/applause-button/dist/applause-button.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>

@@ -14,6 +14,15 @@ from threading import Thread
 from itsdangerous import URLSafeTimedSerializer
 from datetime import datetime
 
+import pandas as pd
+import numpy as np
+from sklearn.datasets import load_iris
+from bokeh.plotting import figure
+from bokeh.embed import components
+from bokeh.io import output_notebook, show, output_file
+from bokeh.models import ColumnDataSource, HoverTool, Panel
+from bokeh.models.widgets import Tabs
+
 from project import db, mail, app
 from .forms import RegisterForm, LoginForm, EmailForm, PasswordForm, UsernameForm
 from project.models import User, Evaluation, Answer, Evaluation_Likes, Answer_Vote
@@ -265,4 +274,59 @@ def admin_view_users():
     else:
         users = User.query.order_by(User.id).all()
         return render_template('admin_view_users.html', users=users)
-    return redirect(url_for('stocks.watch_list'))
+    return redirect(url_for('users.user_profile'))
+
+'''
+Developing a dashboard for admin views
+
+Current status
+For a dataframe, create a histogram of each column except the last
+
+Have a dropdown menu to change between columns in the DataFrame
+
+Dynamic plotting
+
+Hover tools but they are broken right now
+
+'''
+# Load the Iris Data Set
+iris = load_iris()
+iris_df = pd.DataFrame(data= np.c_[iris['data'], iris['target']], columns=iris['feature_names'] + ['target'])
+feature_names = iris_df.columns[0:-1].values.tolist()
+
+# Create the main plot
+def create_figure(current_feature_name, bins):
+    hist, edges = np.histogram(iris_df[current_feature_name], bins = bins)
+
+    hist_df = pd.DataFrame({current_feature_name: hist, "left": edges[:-1], "right": edges[1:]})
+    hist_df["interval"] = ["%d to %d" % (left, right) for left, right in zip(hist_df["left"], hist_df["right"])]
+
+    src = ColumnDataSource(hist_df)
+
+    p = figure(plot_height = 600, plot_width = 600, title = "Histogram of {}".format(current_feature_name.capitalize()),\
+            x_axis_label = current_feature_name.capitalize(), y_axis_label = "Count")
+
+    p.quad(bottom = 0, top = current_feature_name,left = "left", right = "right", source = src, fill_color = "SteelBlue",\
+            line_color = "black", fill_alpha = 0.7, hover_fill_alpha = 1.0, hover_fill_color = "Tan")
+
+    hover = HoverTool(tooltips = [('Interval', '@interval'), ('Count', str("@" + current_feature_name))])
+    p.add_tools(hover)
+    return p
+
+@users_blueprint.route('/admin_dashboard')
+@login_required
+def admin_dashboard():
+    if current_user.role != 'admin':
+        abort(403)
+    else:
+        current_feature_name = request.args.get("feature_name")
+        if current_feature_name == None:
+            current_feature_name = "sepal length (cm)"
+
+        plot = create_figure(current_feature_name, 10)
+        script, div = components(plot)
+
+        return render_template('admin_dashboard.html', script=script, div=div,\
+                feature_names=feature_names,  current_feature_name=current_feature_name)
+
+    return redirect(url_for('users.user_profile'))

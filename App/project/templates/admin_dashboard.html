@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_form_macros.html" import render_field %}
+
+{% block content %}
+
+<div class="admin-dashboard">
+  <div class="page-header">
+    <h2>Administrative Page: Usage Statistics</h2>
+  </div>
+
+  <form action="/admin_dashboard">
+  <select name="feature_name">
+  	{% for feature in feature_names %}
+  		{% if feature == current_feature_name %}
+  			<option selected value="{{ feature }}">{{ feature }}</option>
+  		{% else %}
+  			<option value="{{ feature }}">{{ feature }}</option>
+  		{% endif %}
+  	{% endfor %}
+  </select>
+  <input type="submit">
+  </form>
+
+  {{ script|safe }}
+  {{ div|safe }}
+
+</div>
+
+{% endblock %}
