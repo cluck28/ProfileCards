@@ -118,10 +118,13 @@ class User(db.Model):
     current_logged_in = db.Column(db.DateTime, nullable=True)
     username = db.Column(db.String, unique=True, nullable=False)
     role = db.Column(db.String, default='user')
+    program = db.Column(db.String, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    session = db.Column(db.String, nullable=False)
     evaluations = db.relationship('Evaluation', backref='user', lazy='dynamic')
     answers = db.relationship('Answer', backref='user', lazy='dynamic')
 
-    def __init__(self, email, plaintext_password, email_confirmation_sent_on=None, role='user'):
+    def __init__(self, email, plaintext_password, email_confirmation_sent_on=None, role='user', program='None',year='2000',session='Team'):
         self.email = email
         self.password = plaintext_password
         self.authenticated = False
@@ -133,6 +136,9 @@ class User(db.Model):
         self.current_logged_in = datetime.now()
         self.username = email
         self.role = role
+        self.program = program
+        self.year = year
+        self.session = session
 
     @hybrid_property
     def password(self):
