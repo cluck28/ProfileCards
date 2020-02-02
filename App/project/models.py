@@ -121,10 +121,12 @@ class User(db.Model):
     program = db.Column(db.String, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     session = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
     evaluations = db.relationship('Evaluation', backref='user', lazy='dynamic')
     answers = db.relationship('Answer', backref='user', lazy='dynamic')
 
-    def __init__(self, email, plaintext_password, email_confirmation_sent_on=None, role='user', program='None',year='2000',session='Team'):
+    def __init__(self, email, plaintext_password, email_confirmation_sent_on=None, role='user',\
+                    program='Team',year='2000',session='None',location='Silicon Valley'):
         self.email = email
         self.password = plaintext_password
         self.authenticated = False
@@ -139,6 +141,7 @@ class User(db.Model):
         self.program = program
         self.year = year
         self.session = session
+        self.location = location
 
     @hybrid_property
     def password(self):
